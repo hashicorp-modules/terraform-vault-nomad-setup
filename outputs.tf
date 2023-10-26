@@ -28,6 +28,9 @@ vault {
   enabled = true
   address = "<Vault address>"
 
+  # Vault Enterprise only.
+  # namespace = "<namespace>"
+
   # Vault mTLS configuration.
   # ca_path     = "/etc/certs/ca"
   # cert_file   = "/var/certs/vault.crt"

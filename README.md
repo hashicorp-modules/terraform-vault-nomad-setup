@@ -55,6 +55,41 @@ EOT
 }
 ```
 
+### Vault Namespace
+
+When using Vault Enterprise you can apply the configuration to a different
+namespace by configuring the `vault` provider.
+
+```hcl
+provider "vault" {
+  # ...
+  namespace = "prod"
+}
+```
+
+Create different [provider aliases][tf_provider_alias] to support multiple
+namespaces.
+
+```hcl
+provider "vault" {
+  # ...
+}
+
+provider "vault" {
+  alias = "prod"
+  # ...
+  namespace = "prod"
+}
+
+module "vault_setup" {
+  source = "github.com/hashicorp/terraform-vault-nomad-setup"
+  providers = {
+    vault = vault.prod
+  }
+  # ...
+}
+```
+
 ## Resources
 
 | Name | Type |
@@ -87,3 +122,4 @@ EOT
 | <a name="output_role_name"></a> [role\_name](#output\_role\_name) | The name of the ACL role applied to tokens created using the Nomad JWT auth method. |
 
 [nomad_wid]: https://developer.hashicorp.com/nomad/docs/concepts/workload-identity
+[tf_provider_alias]: https://developer.hashicorp.com/terraform/language/providers/configuration#alias-multiple-provider-configurations
