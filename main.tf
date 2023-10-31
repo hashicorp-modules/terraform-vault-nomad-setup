@@ -56,7 +56,15 @@ resource "vault_jwt_auth_backend_role" "nomad_workload" {
   # in errors if the task outlives the token TTL and tries to access Vault.
   token_type     = "service"
   token_policies = local.policy_names
-  token_ttl      = var.token_ttl
+
+  # token_peridod is the token TTL set after each renewal. Nomad automatically
+  # renews Vault tokens before they expire for as long as the task runs and the
+  # Nomad client has connectivity to the Vault cluster.
+  #
+  # Since Nomad uses periodic tokens, token_peridod should be used instead of
+  # token_ttl. Refer to Vault documentation for more details.
+  # https://developer.hashicorp.com/vault/docs/concepts/tokens#periodic-tokens
+  token_peridod = var.token_ttl
 
   # token_explicit_max_ttl must be 0 so Nomad can renew tokens for as long as
   # the task runs.
