@@ -12,7 +12,7 @@ resource "vault_jwt_auth_backend" "nomad" {
   path               = var.jwt_auth_path
   description        = "JWT auth backend for Nomad"
   jwks_url           = var.nomad_jwks_url
-  jwt_supported_algs = ["EdDSA"]
+  jwt_supported_algs = ["RS256", "EdDSA"]
 
   # default_role is the role applied to tokens derived from this auth method
   # when no role is specified in the request.
@@ -57,14 +57,14 @@ resource "vault_jwt_auth_backend_role" "nomad_workload" {
   token_type     = "service"
   token_policies = local.policy_names
 
-  # token_peridod is the token TTL set after each renewal. Nomad automatically
+  # token_period is the token TTL set after each renewal. Nomad automatically
   # renews Vault tokens before they expire for as long as the task runs and the
   # Nomad client has connectivity to the Vault cluster.
   #
-  # Since Nomad uses periodic tokens, token_peridod should be used instead of
+  # Since Nomad uses periodic tokens, token_period should be used instead of
   # token_ttl. Refer to Vault documentation for more details.
   # https://developer.hashicorp.com/vault/docs/concepts/tokens#periodic-tokens
-  token_peridod = var.token_ttl
+  token_period = var.token_ttl
 
   # token_explicit_max_ttl must be 0 so Nomad can renew tokens for as long as
   # the task runs.
