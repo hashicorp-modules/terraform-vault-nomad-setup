@@ -19,13 +19,13 @@ variable "jwt_auth_path" {
 variable "role_name" {
   description = "The name of the ACL role created and used by default for Nomad workload tokens."
   type        = string
-  default     = "nomad-workload"
+  default     = "nomad-workloads"
 }
 
 variable "default_policy_name" {
   description = "The name of the default ACL policy created for Nomad workloads when `policy_names` is not defined."
   type        = string
-  default     = "nomad-workload"
+  default     = "nomad-workloads"
 }
 
 variable "policy_names" {
